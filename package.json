@@ -1,0 +1,40 @@
+{
+  "name": "playwright-sitemap-crawler",
+  "descrition": "Playwright Sitemap Crawler is a Node.js script designed for visual regression testing and warming proxy cache for all pages in a sitemap.",
+  "version": "0.1.0",
+  "main": "./warm.js",
+  "type": "module",
+  "dependencies": {
+    "@playwright/test": "^1.38.1",
+    "dotenv": "^16.3.1",
+    "filenamify-url": "^3.0.0",
+    "physical-cpu-count-async": "^1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robman87/playwright-sitemap-crawler.git"
+  },
+  "keywords": [
+    "visual regression testing",
+    "sitemap",
+    "cache warmer"
+  ],
+  "scripts": {
+    "warm:cache": "node warm.js",
+    "test:visual": "playwright test --config=tests/visual.config.js",
+    "test:visual:chrome": "playwright test --config=tests/visual.config.js --project=Chromium",
+    "test:visual:firefox": "playwright test --config=tests/visual.config.js --project=Firefox",
+    "test:visual:safari": "playwright test --config=tests/visual.config.js --project=Webkit",
+    "test:visual:iphone": "playwright test --config=tests/visual.config.js --project=iPhone"
+  },
+  "author": "Robert Michalski <robert@robert-michalski.com> (https://robert-michalski.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/robman87/playwright-sitemap-crawler/issues"
+  },
+  "homepage": "https://github.com/robman87/playwright-sitemap-crawler",
+  "description": "A CLI script to help perform various tasks for every page in a `sitemap.xml`, for instance performing visual regression tests or warming cache.",
+  "engines": {
+    "node": ">=16"
+  }
+}

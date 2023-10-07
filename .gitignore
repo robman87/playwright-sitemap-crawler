@@ -1,0 +1,8 @@
+node_modules/
+*.log
+.env
+
+# Playwright generated files
+*-report/
+*-results/
+tests/*.spec.js-snapshots/
