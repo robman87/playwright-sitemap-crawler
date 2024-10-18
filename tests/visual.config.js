@@ -5,7 +5,7 @@ import {
 } from '../src/args.js'
 
 export default defineConfig({
-    testDir: './',
+    testDir: './visual-regression',
 
     timeout: 30 * 1000,
     expect: {

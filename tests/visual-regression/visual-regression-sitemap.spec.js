@@ -2,11 +2,11 @@ import {
     sitemapUrl,
     maxDiffPixels,
     stripHostFromFileNames
-} from '../src/args.js'
+} from '../../src/args.js'
 
 import { URL } from 'node:url'
 import { test, expect } from '@playwright/test'
-import { fetchSitemapUrls } from '../src/sitemap.js'
+import { fetchSitemapUrls } from '../../src/sitemap.js'
 
 await main()
 
