@@ -17,6 +17,8 @@ const concurrency = Math.min(physicalCoreCount, desiredConcurrency)
 const maxDiffPixels = parseInt(process.env.MAX_DIFF_PIXELS) || 0
 const stripHostFromFileNames = process.env.STRIP_HOST_FROM_FILENAMES
 
+const screenshotDestination = process.env.SCREENSHOT_DESTINATION
+
 const userAgent = process.env.USER_AGENT || 'Playwright Sitemap Warmer (https://github.com/robman87/playwright-sitemap-crawler)'
 
 export {
@@ -29,5 +31,6 @@ export {
     // Visual regression testing
     maxDiffPixels,
     stripHostFromFileNames,
-    userAgent
+    userAgent,
+    screenshotDestination
 }
