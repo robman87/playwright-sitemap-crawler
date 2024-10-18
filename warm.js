@@ -22,11 +22,18 @@ async function main(sitemapUrl, concurrency) {
     // Optimization, skips previously downloaded files
     await context.route('**/*', maybeAbortRequests(sitemapUrl, warmFilesWithExtensions))
 
-    console.log(`Fetching sitemap ${sitemapUrl}`)
-    console.log('---------------------------------')
+    let urls = []
 
-    // TODO: fetch sitemaps recursively
-    const urls = await fetchSitemapUrls(sitemapUrl)
+    if (`${sitemapUrl}`.endsWith('.xml')) {
+        console.log(`Fetching sitemap ${sitemapUrl}`)
+        console.log('---------------------------------')
+
+        urls = await fetchSitemapUrls(sitemapUrl)
+    } else {
+        urls = sitemapUrl
+            .split(',')
+            .map((url) => `${url}`.trim()) // just urls
+    }
 
     console.log(`Starting warming of ${urls.length} urls with concurrency of ${concurrency}`)
 
