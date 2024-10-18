@@ -30,7 +30,28 @@ async function main() {
             await page.goto(url)
             await page.waitForLoadState('domcontentloaded')
             await page.waitForLoadState('networkidle')
-            await page.waitForTimeout(1000)
+
+            // Get the height of the viewport dynamically from the browser
+            const viewportHeight = await page.evaluate(() => window.innerHeight)
+
+            let currentPosition = 0
+            let previousPosition = -1
+
+            // Scroll down by viewport height until no more content is loaded
+            while (previousPosition !== currentPosition) {
+                previousPosition = currentPosition
+
+                // Scroll down by the viewport height
+                await page.evaluate((viewportHeight) => {
+                    window.scrollBy(0, viewportHeight)
+                }, viewportHeight)
+
+                await page.waitForTimeout(500) // Wait for lazy-loaded content to load
+                await page.waitForLoadState('networkidle')
+
+                // Update the current scroll position
+                currentPosition = await page.evaluate(() => window.scrollY)
+            }
 
             const fileName = slugify(`${filenamifyUrl(path)}-${filenamify(workerInfo.project.name)}`.toLowerCase())
             const filePath = Path.resolve(screenshotDestination,  `${fileName}.png`)
