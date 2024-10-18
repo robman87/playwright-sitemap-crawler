@@ -5,9 +5,11 @@
   "main": "./warm.js",
   "type": "module",
   "dependencies": {
-    "@playwright/test": "^1.38.1",
-    "dotenv": "^16.3.1",
-    "filenamify-url": "^3.0.0",
+    "@sindresorhus/slugify": "^2.2.1",
+    "@playwright/test": "^1.48.1",
+    "dotenv": "^16.4.5",
+    "filenamify": "^6.0.0",
+    "filenamify-url": "^3.1.0",
     "physical-cpu-count-async": "^1.0.0"
   },
   "repository": {
@@ -16,12 +18,15 @@
   },
   "keywords": [
     "visual regression testing",
+    "browser sccrenshot capture",
     "sitemap",
     "cache warmer"
   ],
   "scripts": {
+    "screenshots:chrome": "node screenshot.js",
     "warm:cache": "node warm.js",
     "test:visual": "playwright test --config=tests/visual.config.js",
+    "test:screenshots": "playwright test --config=tests/screenshots.config.js",
     "test:visual:chrome": "playwright test --config=tests/visual.config.js --project=Chromium",
     "test:visual:firefox": "playwright test --config=tests/visual.config.js --project=Firefox",
     "test:visual:safari": "playwright test --config=tests/visual.config.js --project=Webkit",
@@ -35,6 +40,6 @@
   "homepage": "https://github.com/robman87/playwright-sitemap-crawler",
   "description": "A CLI script to help perform various tasks for every page in a `sitemap.xml`, for instance performing visual regression tests or warming cache.",
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   }
 }
