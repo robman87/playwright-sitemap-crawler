@@ -1,8 +1,5 @@
 import { defineConfig } from '@playwright/test'
-import {
-    concurrency,
-    userAgent
-} from '../src/args.js'
+import { concurrency } from '../src/args.js'
 import { generatePlaywrightProjectConfigs } from '../src/configs.js'
 
 // Define configurations
@@ -14,12 +11,13 @@ const resolutions = [
 ]
 const mobileDevices = ['iPhone 14 Pro Max', 'iPhone SE']
 const tabletDevices = ['iPad Pro 11']
+const devices = tabletDevices.concat(mobileDevices)
 const orientations = ['portrait', 'landscape']
 
 const projects = generatePlaywrightProjectConfigs({
     browsers,
     resolutions,
-    devices: tabletDevices.concat(mobileDevices),
+    devices,
     orientations
 })
 
