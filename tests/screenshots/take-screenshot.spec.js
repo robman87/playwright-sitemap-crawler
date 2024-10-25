@@ -4,6 +4,7 @@ import filenamify from 'filenamify'
 import slugify from '@sindresorhus/slugify'
 import {
     sitemapUrl,
+    screenshotUrl,
     stripHostFromFileNames,
     screenshotDestination,
 } from '../../src/args.js'
@@ -17,7 +18,7 @@ await main()
 async function main() {
     const urls = `${sitemapUrl}`.endsWith('.xml')
         ? await fetchSitemapUrls(sitemapUrl)
-        : sitemapUrl
+        : screenshotUrl
             .split(',')
             .map((url) => `${url}`.trim()) // just urls
 
