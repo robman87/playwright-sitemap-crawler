@@ -5,12 +5,13 @@
   "main": "./warm.js",
   "type": "module",
   "dependencies": {
-    "@sindresorhus/slugify": "^2.2.1",
     "@playwright/test": "^1.48.1",
+    "@sindresorhus/slugify": "^2.2.1",
     "dotenv": "^16.4.5",
     "filenamify": "^6.0.0",
     "filenamify-url": "^3.1.0",
-    "physical-cpu-count-async": "^1.0.0"
+    "physical-cpu-count-async": "^1.0.0",
+    "sharp": "^0.33.5"
   },
   "repository": {
     "type": "git",
@@ -40,6 +41,6 @@
   "homepage": "https://github.com/robman87/playwright-sitemap-crawler",
   "description": "A CLI script to help perform various tasks for every page in a `sitemap.xml`, for instance performing visual regression tests or warming cache.",
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   }
 }

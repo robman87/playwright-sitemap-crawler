@@ -7,7 +7,13 @@ import {
     screenshotUrl,
     stripHostFromFileNames,
     screenshotDestination,
+    pageImagesDestination
 } from '../../src/args.js'
+import {
+    compressAndSaveImage,
+    saveOptimizedImagesWhileLoadingPage
+} from '../../src/images.js'
+import { loadFullPage } from '../../src/helpers.js'
 
 import { URL } from 'node:url'
 import { test, expect } from '@playwright/test'
@@ -28,39 +34,29 @@ async function main() {
             ? urlObj.href.replace(urlObj.origin + '/', '') || 'home'
             : url
         test(`${path}`, async ({ page, context}, workerInfo) => {
-            await page.goto(url)
-            await page.waitForLoadState('domcontentloaded')
-            await page.waitForLoadState('networkidle')
-
-            // Get the height of the viewport dynamically from the browser
-            const viewportHeight = await page.evaluate(() => window.innerHeight)
-
-            let currentPosition = 0
-            let previousPosition = -1
-
-            // Scroll down by viewport height until no more content is loaded
-            while (previousPosition !== currentPosition) {
-                previousPosition = currentPosition
-
-                // Scroll down by the viewport height
-                await page.evaluate((viewportHeight) => {
-                    window.scrollBy(0, viewportHeight)
-                }, viewportHeight)
-
-                await page.waitForTimeout(500) // Wait for lazy-loaded content to load
-                await page.waitForLoadState('networkidle')
-
-                // Update the current scroll position
-                currentPosition = await page.evaluate(() => window.scrollY)
+            if (typeof pageImagesDestination === 'string' && pageImagesDestination.trim().length) {
+                await saveOptimizedImagesWhileLoadingPage(
+                    page,
+                    Path.resolve(pageImagesDestination, new URL(url).hostname),
+                    'webp',
+                    { maxWidth: 1920 }
+                )
             }
 
-            const fileName = slugify(`${filenamifyUrl(path)}-${filenamify(workerInfo.project.name)}`.toLowerCase())
-            const filePath = Path.resolve(screenshotDestination,  `${fileName}.png`)
-            await page.screenshot({ fullPage: true, path: filePath })
+            await loadFullPage(page, url, 500)
 
+            // Save image to buffer in memory, no need to write unoptimized image to disk
+            const imgBuffer = await page.screenshot({ fullPage: true })
+
+            // Close page early, free up resources
             await page.close()
 
-            expect(true).toBe(true)
+            const fileName = slugify(`${filenamifyUrl(path)}-${filenamify(workerInfo.project.name)}`.toLowerCase())
+
+            const result = await compressAndSaveImage(imgBuffer, screenshotDestination, fileName, ['webp', 'jpg'])
+
+            expect(result.error).toBeUndefined()
+            expect(result.size).toBeLessThan(imgBuffer.length)
         })
     }
 }

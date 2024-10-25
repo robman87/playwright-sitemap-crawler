@@ -1,5 +1,4 @@
 import 'dotenv/config'
-import os from 'node:os'
 import physicalCoreCount from 'physical-cpu-count-async'
 
 // TODO: add CLI-args and env vars
@@ -20,21 +19,25 @@ const stripHostFromFileNames = process.env.STRIP_HOST_FROM_FILENAMES
 const screenshotUrl = process.env.SCREENSHOT_URL
 const screenshotDestination = process.env.SCREENSHOT_DESTINATION
 
+const pageImagesDestination = process.env.PAGE_IMAGES_DESTINATION
+
 const userAgent = process.env.USER_AGENT || 'Playwright Sitemap Warmer (https://github.com/robman87/playwright-sitemap-crawler)'
 
 export {
     // Shared
-    sitemapUrl,
     concurrency,
+    userAgent,
+    // Sitemaps
+    sitemapUrl,
     // Cache warming
     proxyCacheHeaderName,
     warmFilesWithExtensions,
-    // Page image optimization
-    pageImagesDestination,
     // Visual regression testing
     maxDiffPixels,
     stripHostFromFileNames,
     // Screenshots
     screenshotUrl,
-    screenshotDestination
+    screenshotDestination,
+    // Page image optimization
+    pageImagesDestination
 }
