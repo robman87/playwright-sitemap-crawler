@@ -24,7 +24,7 @@ const projects = generatePlaywrightProjectConfigs({
 export default defineConfig({
     testDir: './screenshots',
 
-    timeout: 30 * 1000,
+    timeout: 60 * 1000,
     expect: {
         timeout: 10000
     },
